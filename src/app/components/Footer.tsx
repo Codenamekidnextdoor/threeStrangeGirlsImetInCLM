@@ -12,7 +12,7 @@ export function Footer() {
         </p>
         <p className="text-[#4A4A4A] text-xs">Academic Service Learning Project</p>
         <div className="h-1.5 w-20 grad-primary mx-auto rounded-full my-5"></div>
-        <p className="text-[#D35400] text-sm italic font-semibold">
+        <p className="text-[#D35400] text-base italic font-semibold">
           "Little hands, big hearts"
         </p>
       </div>

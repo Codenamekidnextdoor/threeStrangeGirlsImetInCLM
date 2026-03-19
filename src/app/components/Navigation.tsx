@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
 import type { PageType } from '../App';
-import logoSvg from '../../imports/princess-alice-logo.svg';
+import logoSvg from '../../../WhatsApp Image 2026-02-24 at 12.04.30 (1).svg';
 
 const pageLabels: Record<PageType, string> = {
   home: 'Home',
@@ -32,7 +32,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
 
   return (
     <nav className="sticky top-0 z-50 backdrop-blur-xl border-b-2 border-[#E1BEE7]/30 bg-[#FFFBF5]/95">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="relative max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <button
           onClick={() => handleNavigate('home')}
           className="flex items-center gap-3 group"
@@ -40,7 +40,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
           <img 
             src={logoSvg} 
             alt="Logo" 
-            className="w-12 h-12 anim-float"
+            className="w-14 h-14"
           />
           <span className="baloo text-xl font-black hidden sm:block grad-text">
             Princess Alice
@@ -48,7 +48,7 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
         </button>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
           {pages.map((page) => (
             <button
               key={page}

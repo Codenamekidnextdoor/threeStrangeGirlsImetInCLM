@@ -1,5 +1,6 @@
 import { BookOpen, Heart } from 'lucide-react';
 import type { PageType } from '../../App';
+import image2vector from '../../../../WhatsApp Image 2026-02-24 at 12.04.30 (1).svg';
 
 interface HomeProps {
   onNavigate: (page: PageType) => void;
@@ -14,18 +15,22 @@ export function Home({ onNavigate }: HomeProps) {
         <div className="absolute top-20 right-10 w-72 h-72 grad-secondary opacity-20 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-20 w-96 h-96 grad-accent opacity-15 rounded-full blur-3xl"></div>
 
-        <div className="relative max-w-5xl mx-auto px-6 py-28 md:py-40 text-center bg-[#00000000]">
-          
+        <div className="relative max-w-5xl mx-auto px-6 py-12 md:py-14 text-center bg-[#00000000]">
+          <img
+            src={image2vector}
+            alt="Princess Alice Adoption Home emblem"
+            className="w-40 md:w-52 h-auto mx-auto -mt-10 mb-4 anim-fade-up delay-1"
+          />
 
-          <h1 className="text-5xl md:text-7xl font-black leading-tight anim-fade-up delay-2 grad-text mb-6" style={{ fontFamily: "'Fredoka One', cursive" }}>
+          <h1 className="text-5xl md:text-6xl font-black leading-tight anim-fade-up delay-2 grad-text mb-4" style={{ fontFamily: "'Fredoka One', cursive" }}>
             Princess Alice<br />Adoption Home
           </h1>
 
-          <p className="text-lg md:text-xl text-[#4A4A4A] max-w-2xl mx-auto leading-relaxed anim-fade-up delay-3 mb-8">
+          <p className="text-base md:text-lg text-[#4A4A4A] max-w-2xl mx-auto leading-relaxed anim-fade-up delay-3 mb-5">
             A residential care facility serving vulnerable children aged 1 month to 4 years in Johannesburg. Transforming lives through compassion and community support.
           </p>
 
-          <blockquote className="text-2xl md:text-3xl font-bold anim-fade-up delay-4 mb-10 italic bg-[#00000000]"><span className="grad-text">"Every child deserves a safe, nurturing environment to grow and thrive."</span></blockquote>
+          <blockquote className="text-xl md:text-2xl font-bold anim-fade-up delay-4 mb-6 italic bg-[#00000000]"><span className="grad-text">"Every child deserves a safe, nurturing environment to grow and thrive."</span></blockquote>
 
           <div className="flex flex-wrap justify-center gap-4 anim-fade-up delay-5">
             <button
