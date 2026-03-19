@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Princess Alice Adoption Home</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&amp;family=Space+Grotesk:wght@400;600;700&amp;display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            vibBg: '#FBF7F3',
+            vibGrad1: '#FFB3D9',
+            vibGrad2: '#D9B3FF',
+            vibGrad3: '#B3D9FF',
+            vibGrad4: '#FFD9B3',
+            vibAccent: '#B3FFD9',
+            vibTeal: '#B3FFDB',
+            vibPink: '#FFB3E6',
+            vibOrange: '#FFCCA3',
+            vibPurple: '#E6B3FF',
+            vibYellow: '#FFFFB3',
+            neonGreen: '#D9FFB3',
+            surfaceCard: '#FFFFFF',
+            textLight: '#3D3D3D',
+            textDim: '#6B6B6B'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html { height: 100%; }
+    body { height: 100%; margin: 0; font-family: 'Poppins', sans-serif; background: #FBF7F3; color: #3D3D3D; }
+    .spaceGrotesk { font-family: 'Space Grotesk', sans-serif; }
+
+    /* Gradient backgrounds */
+    .grad-primary { background: linear-gradient(135deg, #FFB3D9 0%, #D9B3FF 50%, #B3D9FF 100%); }
+    .grad-secondary { background: linear-gradient(135deg, #D9B3FF 0%, #B3D9FF 50%, #B3FFD9 100%); }
+    .grad-accent { background: linear-gradient(135deg, #FFD9B3 0%, #FFFFB3 50%, #FFB3E6 100%); }
+    .grad-text { background: linear-gradient(135deg, #FFB3D9, #D9B3FF, #B3D9FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 179, 217, 0.3), 0 0 40px rgba(217, 179, 255, 0.2); }
+      50% { box-shadow: 0 0 30px rgba(255, 179, 217, 0.6), 0 0 60px rgba(217, 179, 255, 0.4); }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .anim-fade-up { animation: fadeInUp 0.9s ease forwards; opacity: 0; }
+    .anim-fade { animation: fadeIn 0.7s ease forwards; opacity: 0; }
+    .anim-glow { animation: pulse-glow 3s ease-in-out infinite; }
+    .anim-float { animation: float 5s ease-in-out infinite; }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+    .delay-5 { animation-delay: 0.5s; }
+    .delay-6 { animation-delay: 0.6s; }
+    .delay-7 { animation-delay: 0.7s; }
+    .delay-8 { animation-delay: 0.8s; }
+
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+
+    .nav-link { position: relative; transition: all 0.3s ease; }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -4px; left: 50%; width: 0;
+      height: 2px; background: linear-gradient(90deg, #FFB3D9, #D9B3FF); transition: all 0.3s ease; transform: translateX(-50%);
+    }
+    .nav-link:hover::after, .nav-link.active-link::after { width: 100%; }
+    .nav-link.active-link { color: #FFB3D9; font-weight: 700; }
+
+    .card-hover { transition: all 0.4s ease; }
+    .card-hover:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(255, 179, 217, 0.2); }
+
+    .stat-card { background: rgba(179, 217, 255, 0.1); border: 1px solid rgba(217, 179, 255, 0.2); }
+
+    .progress-bar {
+      height: 8px; border-radius: 999px; background: rgba(217, 179, 255, 0.2); overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 999px;
+      background: linear-gradient(90deg, #FFB3D9, #D9B3FF, #B3D9FF);
+      transition: width 1.2s ease;
+    }
+
+    .mobile-menu { display: none; }
+    .mobile-menu.open { display: flex; }
+
+    @media (max-width: 768px) {
+      .desktop-nav { display: none !important; }
+      .mobile-btn { display: flex !important; }
+    }
+    @media (min-width: 769px) {
+      .mobile-btn { display: none !important; }
+      .mobile-menu { display: none !important; }
+    }
+
+    .need-icon-box {
+      width: 56px; height: 56px; border-radius: 12px; display: flex;
+      align-items: center; justify-content: center; flex-shrink: 0;
+      background: rgba(131, 56, 236, 0.15); border: 1px solid rgba(255, 0, 110, 0.3);
+    }
+
+    .edit-panel {
+      position: fixed; bottom: 20px; right: 20px; width: 320px;
+      background: #FFFFFF; border-radius: 16px; border: 1px solid rgba(255, 179, 217, 0.2);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+      z-index: 40; max-height: 60vh; overflow-y: auto; padding: 0;
+      animation: slideUp 0.4s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .edit-panel-header {
+      background: linear-gradient(135deg, #FFB3D9, #D9B3FF);
+      color: #3D3D3D; padding: 18px; border-radius: 16px 16px 0 0;
+      display: flex; align-items: center; justify-content: space-between;
+      font-weight: bold; position: sticky; top: 0;
+    }
+
+    .edit-panel-close { background: none; border: none; color: #3D3D3D; cursor: pointer; font-size: 20px; }
+
+    .edit-panel-content { padding: 20px; }
+
+    .edit-panel-group { margin-bottom: 18px; }
+
+    .edit-panel-label { font-size: 11px; font-weight: 700; color: #FFB3D9; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; display: block; }
+
+    .edit-panel-input {
+      width: 100%; padding: 12px 14px; border: 1.5px solid rgba(217, 179, 255, 0.3);
+      border-radius: 8px; font-family: inherit; font-size: 14px;
+      transition: all 0.2s; background: rgba(251, 247, 243, 0.8); color: #3D3D3D;
+    }
+
+    .edit-panel-input:focus { outline: none; border-color: #FFB3D9; background: rgba(255, 179, 217, 0.08); box-shadow: 0 0 0 3px rgba(255, 179, 217, 0.1); }
+
+    .edit-toggle { display: none; }
+    .edit-toggle:checked ~ .edit-panel { display: block; }
+    .edit-panel { display: none; }
+
+    .edit-btn {
+      position: fixed; bottom: 20px; right: 20px; z-index: 39;
+      width: 64px; height: 64px; border-radius: 50%;
+      background: linear-gradient(135deg, #FFB3D9, #D9B3FF); color: #3D3D3D; border: none;
+      cursor: pointer; font-size: 28px; display: flex;
+      align-items: center; justify-content: center;
+      box-shadow: 0 8px 24px rgba(255, 179, 217, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .edit-btn:hover { transform: scale(1.1); box-shadow: 0 12px 32px rgba(255, 179, 217, 0.5); }
+    .edit-toggle:checked ~ .edit-btn { display: none; }
+
+    @media (max-width: 640px) {
+      .edit-panel { width: calc(100% - 40px); right: 20px; left: 20px; }
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app-wrapper" class="w-full h-full overflow-auto" style="scroll-behavior:smooth;background:#0F0E1A;"><!-- NAVIGATION -->
+   <nav id="main-nav" class="sticky top-0 z-50 backdrop-blur-xl border-b border-vibPurple/20 bg-vibBg/80">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+     <button onclick="navigateTo('home')" class="flex items-center gap-3 group"> <span class="text-3xl anim-float">✨</span> <span id="nav-title" class="spaceGrotesk text-xl font-bold hidden sm:block grad-text">Princess Alice</span> </button>
+     <div class="desktop-nav flex items-center gap-2" id="desktop-nav-links"></div><button class="mobile-btn items-center justify-center w-10 h-10 rounded-lg hover:bg-vibGrad1/20" onclick="toggleMobile()"> <i data-lucide="menu" class="w-5 h-5 text-vibGrad1"></i> </button>
+    </div>
+    <div class="mobile-menu flex-col bg-vibBg/60 backdrop-blur border-t border-vibPurple/20 px-6 py-3" id="mobile-menu"></div>
+   </nav><!-- HOME SECTION -->
+   <section id="page-home" class="page-section active">
+    <div class="relative overflow-hidden">
+     <div class="absolute inset-0 grad-primary opacity-10"></div>
+     <div class="absolute top-20 right-10 w-72 h-72 grad-secondary opacity-20 rounded-full blur-3xl"></div>
+     <div class="absolute bottom-0 left-20 w-96 h-96 grad-accent opacity-15 rounded-full blur-3xl"></div>
+     <div class="relative max-w-5xl mx-auto px-6 py-28 md:py-40 text-center">
+      <div class="anim-fade-up delay-1 text-6xl mb-8">
+       🏡
+      </div>
+      <h1 id="hero-title" class="spaceGrotesk text-5xl md:text-7xl font-black leading-tight anim-fade-up delay-2 grad-text mb-6">Princess Alice<br>
+        Adoption Home</h1>
+      <p class="text-lg md:text-xl text-textDim max-w-2xl mx-auto leading-relaxed anim-fade-up delay-3 mb-8">A residential care facility serving vulnerable children aged 1 month to 4 years in Johannesburg. Transforming lives through compassion and community support.</p>
+      <blockquote id="hero-quote" class="text-2xl md:text-3xl font-bold anim-fade-up delay-4 mb-10 italic">
+       <span class="grad-text">"Every child deserves a safe, nurturing environment to grow and thrive."</span>
+      </blockquote>
+      <div class="flex flex-wrap justify-center gap-4 anim-fade-up delay-5">
+       <button onclick="navigateTo('about')" class="grad-primary text-white px-8 py-4 rounded-full font-bold transition-all hover:scale-105 flex items-center gap-2 shadow-lg hover:shadow-xl"> <i data-lucide="book-open" class="w-5 h-5"></i> Learn More </button> <button onclick="navigateTo('action')" class="grad-accent text-white px-8 py-4 rounded-full font-bold transition-all hover:scale-105 flex items-center gap-2 shadow-lg hover:shadow-xl"> <i data-lucide="heart" class="w-5 h-5"></i> Get Involved </button>
+      </div>
+     </div>
+    </div><!-- STATS -->
+    <div class="max-w-6xl mx-auto px-6 py-20">
+     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div class="stat-card rounded-2xl p-6 text-center card-hover anim-fade-up delay-3 backdrop-blur">
+       <div class="text-4xl mb-3">
+        👶
+       </div>
+       <div class="spaceGrotesk text-3xl font-black text-vibGrad1">
+        ±28
+       </div>
+       <div class="text-sm text-textDim mt-2">
+        Children in care
+       </div>
+      </div>
+      <div class="stat-card rounded-2xl p-6 text-center card-hover anim-fade-up delay-4 backdrop-blur">
+       <div class="text-4xl mb-3">
+        💛
+       </div>
+       <div class="spaceGrotesk text-3xl font-black text-vibAccent">
+        96
+       </div>
+       <div class="text-sm text-textDim mt-2">
+        Years of service
+       </div>
+      </div>
+      <div class="stat-card rounded-2xl p-6 text-center card-hover anim-fade-up delay-5 backdrop-blur">
+       <div class="text-4xl mb-3">
+        🏠
+       </div>
+       <div class="spaceGrotesk text-3xl font-black text-vibTeal">
+        1–4
+       </div>
+       <div class="text-sm text-textDim mt-2">
+        Age range (years)
+       </div>
+      </div>
+      <div class="stat-card rounded-2xl p-6 text-center card-hover anim-fade-up delay-6 backdrop-blur">
+       <div class="text-4xl mb-3">
+        📍
+       </div>
+       <div class="spaceGrotesk text-3xl font-black text-vibGrad3">
+        JHB
+       </div>
+       <div class="text-sm text-textDim mt-2">
+        Johannesburg, SA
+       </div>
+      </div>
+     </div>
+    </div>
+   </section><!-- ABOUT SECTION -->
+   <section id="page-about" class="page-section">
+    <div class="max-w-6xl mx-auto px-6 py-20">
+     <div class="text-center mb-16 anim-fade-up">
+      <div class="text-5xl mb-4">
+       🌿
+      </div>
+      <h2 class="spaceGrotesk text-4xl md:text-5xl font-black grad-text mb-2">About the Community</h2>
+      <div class="h-1 w-20 grad-primary mx-auto rounded-full"></div>
+     </div><!-- People Card -->
+     <div class="bg-surfaceCard rounded-2xl p-8 md:p-10 mb-8 card-hover anim-fade-up delay-2 border border-vibPurple/20 backdrop-blur">
+      <h3 class="spaceGrotesk text-2xl font-black text-vibGrad1 mb-6 flex items-center gap-3"><i data-lucide="users" class="w-6 h-6"></i> People at the Heart</h3>
+      <div class="grid md:grid-cols-3 gap-4">
+       <div class="bg-vibBg rounded-xl p-5 text-center border border-vibGrad1/20">
+        <div class="text-3xl mb-3">
+         👶
+        </div>
+        <div class="spaceGrotesk text-lg font-bold text-vibGrad1">
+         ±28 Children
+        </div>
+        <p class="text-sm text-textDim mt-2">Vulnerable children aged 1 month to 4 years receiving care</p>
+       </div>
+       <div class="bg-vibBg rounded-xl p-5 text-center border border-vibGrad2/20">
+        <div class="text-3xl mb-3">
+         🩺
+        </div>
+        <div class="spaceGrotesk text-lg font-bold text-vibGrad2">
+         Sister Thembi
+        </div>
+        <p class="text-sm text-textDim mt-2">Dedicated nurse providing on-site healthcare &amp; monitoring</p>
+       </div>
+       <div class="bg-vibBg rounded-xl p-5 text-center border border-vibAccent/20">
+        <div class="text-3xl mb-3">
+         🤝
+        </div>
+        <div class="spaceGrotesk text-lg font-bold text-vibAccent">
+         Sandile &amp; Joanne
+        </div>
+        <p class="text-sm text-textDim mt-2">Managers overseeing daily operations and wellbeing</p>
+       </div>
+      </div>
+     </div><!-- Demographics -->
+     <div class="bg-surfaceCard rounded-2xl p-8 md:p-10 anim-fade-up delay-3 border border-vibPurple/20 backdrop-blur">
+      <h3 class="spaceGrotesk text-2xl font-black text-vibGrad2 mb-6 flex items-center gap-3"><i data-lucide="bar-chart-3" class="w-6 h-6"></i> Demographic Snapshot</h3>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+       <div class="bg-vibBg rounded-xl p-4 text-center border border-vibGrad3/20">
+        <div class="text-xs uppercase tracking-widest text-vibGrad3 font-bold mb-2">
+         Population
+        </div>
+        <div class="spaceGrotesk text-2xl font-black text-textLight">
+         4.8M
+        </div>
+       </div>
+       <div class="bg-vibBg rounded-xl p-4 text-center border border-vibGrad3/20">
+        <div class="text-xs uppercase tracking-widest text-vibGrad3 font-bold mb-2">
+         Life Exp.
+        </div>
+        <div class="spaceGrotesk text-2xl font-black text-textLight">
+         64/69.6
+        </div>
+       </div>
+       <div class="bg-vibBg rounded-xl p-4 text-center border border-vibOrange/20">
+        <div class="text-xs uppercase tracking-widest text-vibOrange font-bold mb-2">
+         Fertility
+        </div>
+        <div class="spaceGrotesk text-2xl font-black text-textLight">
+         2.21
+        </div>
+       </div>
+       <div class="bg-vibBg rounded-xl p-4 text-center border border-vibOrange/20">
+        <div class="text-xs uppercase tracking-widest text-vibOrange font-bold mb-2">
+         Infant Mortality
+        </div>
+        <div class="spaceGrotesk text-2xl font-black text-textLight">
+         23.1/1k
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="text-center mt-12">
+      <button onclick="navigateTo('environment')" class="grad-primary text-white px-8 py-4 rounded-full font-bold transition-all hover:scale-105 inline-flex items-center gap-2"> Next: Environment <i data-lucide="arrow-right" class="w-4 h-4"></i> </button>
+     </div>
+    </div>
+   </section><!-- ENVIRONMENT SECTION -->
+   <section id="page-environment" class="page-section">
+    <div class="max-w-6xl mx-auto px-6 py-20">
+     <div class="text-center mb-16 anim-fade-up">
+      <div class="text-5xl mb-4">
+       🏗️
+      </div>
+      <h2 class="spaceGrotesk text-4xl md:text-5xl font-black grad-text mb-2">Environment &amp; Living Conditions</h2>
+      <div class="h-1 w-20 grad-secondary mx-auto rounded-full"></div>
+     </div>
+     <div class="bg-surfaceCard rounded-2xl p-8 md:p-10 mb-8 border border-vibPurple/20 backdrop-blur anim-fade-up delay-2">
+      <p class="text-lg text-textDim leading-relaxed mb-8">The Princess Alice Adoption Home has served the community for <span class="text-vibAccent font-bold">96 years</span>. The facility includes bedrooms, kitchens, and outdoor spaces designed for care and comfort. However, years of limited maintenance have taken a toll.</p>
+      <h3 class="spaceGrotesk text-2xl font-black text-vibGrad1 mb-6 flex items-center gap-3"><i data-lucide="alert-triangle" class="w-6 h-6"></i> Key Challenges</h3>
+      <div class="grid md:grid-cols-2 gap-4">
+       <div class="bg-vibBg rounded-xl p-6 flex items-start gap-4 card-hover border border-vibGrad1/30">
+        <div class="need-icon-box grad-accent flex-shrink-0">
+         🎨
+        </div>
+        <div>
+         <div class="font-bold text-vibGrad1 mb-1">
+          Peeling Paint
+         </div>
+         <p class="text-sm text-textDim">Deteriorating walls throughout create an unwelcoming environment.</p>
+        </div>
+       </div>
+       <div class="bg-vibBg rounded-xl p-6 flex items-start gap-4 card-hover border border-vibGrad2/30">
+        <div class="need-icon-box grad-secondary flex-shrink-0">
+         🌧️
+        </div>
+        <div>
+         <div class="font-bold text-vibGrad2 mb-1">
+          Roof Leaks → Mould
+         </div>
+         <p class="text-sm text-textDim">Water ingress has led to mould growth, posing health risks.</p>
+        </div>
+       </div>
+       <div class="bg-vibBg rounded-xl p-6 flex items-start gap-4 card-hover border border-vibTeal/30">
+        <div class="need-icon-box grad-primary flex-shrink-0">
+         🌿
+        </div>
+        <div>
+         <div class="font-bold text-vibTeal mb-1">
+          Overgrown Garden
+         </div>
+         <p class="text-sm text-textDim">Outdoor spaces are unusable, limiting children's play access.</p>
+        </div>
+       </div>
+       <div class="bg-vibBg rounded-xl p-6 flex items-start gap-4 card-hover border border-vibAccent/30">
+        <div class="need-icon-box grad-accent flex-shrink-0">
+         🪟
+        </div>
+        <div>
+         <div class="font-bold text-vibAccent mb-1">
+          Missing Curtains
+         </div>
+         <p class="text-sm text-textDim">Lack of window coverings affects privacy and sleep quality.</p>
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="text-center mt-12">
+      <button onclick="navigateTo('resources')" class="grad-secondary text-white px-8 py-4 rounded-full font-bold transition-all hover:scale-105 inline-flex items-center gap-2"> Next: Resources <i data-lucide="arrow-right" class="w-4 h-4"></i> </button>
+     </div>
+    </div>
+   </section><!-- RESOURCES SECTION -->
+   <section id="page-resources" class="page-section">
+    <div class="max-w-6xl mx-auto px-6 py-20">
+     <div class="text-center mb-16 anim-fade-up">
+      <div class="text-5xl mb-4">
+       📦
+      </div>
+      <h2 class="spaceGrotesk text-4xl md:text-5xl font-black grad-text mb-2">Available Resources</h2>
+      <div class="h-1 w-20 grad-accent mx-auto rounded-full"></div>
+     </div>
+     <div class="grid md:grid-cols-2 gap-6 anim-fade-up delay-2">
+      <div class="bg-surfaceCard rounded-2xl p-8 card-hover border border-vibGrad1/20 backdrop-blur">
+       <h3 class="spaceGrotesk text-xl font-black text-vibGrad1 mb-5">What's Available</h3>
+       <ul class="space-y-3">
+        <li class="flex items-center gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-vibTeal flex-shrink-0"></i><span class="text-textDim">On-site nursing care (Sister Thembi)</span></li>
+        <li class="flex items-center gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-vibTeal flex-shrink-0"></i><span class="text-textDim">2 transport vehicles for emergencies</span></li>
+        <li class="flex items-center gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-vibTeal flex-shrink-0"></i><span class="text-textDim">Outdoor equipment (currently unusable)</span></li>
+        <li class="flex items-center gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-vibTeal flex-shrink-0"></i><span class="text-textDim">Committed caregiving team</span></li>
+       </ul>
+      </div>
+      <div class="bg-surfaceCard rounded-2xl p-8 card-hover border border-vibGrad2/20 backdrop-blur">
+       <h3 class="spaceGrotesk text-xl font-black text-vibGrad2 mb-5">What's Missing</h3>
+       <ul class="space-y-3">
+        <li class="flex items-center gap-3"><i data-lucide="x-circle" class="w-5 h-5 text-vibOrange flex-shrink-0"></i><span class="text-textDim">No formal education programmes</span></li>
+        <li class="flex items-center gap-3"><i data-lucide="x-circle" class="w-5 h-5 text-vibOrange flex-shrink-0"></i><span class="text-textDim">Limited hygiene products</span></li>
+        <li class="flex items-center gap-3"><i data-lucide="x-circle" class="w-5 h-5 text-vibOrange flex-shrink-0"></i><span class="text-textDim">Insufficient maintenance budget</span></li>
+        <li class="flex items-center gap-3"><i data-lucide="x-circle" class="w-5 h-5 text-vibOrange flex-shrink-0"></i><span class="text-textDim">No developmental stimulation tools</span></li>
+       </ul>
+      </div>
+     </div>
+     <div class="text-center mt-12">
+      <button onclick="navigateTo('needs')" class="grad-primary text-white px-8 py-4 rounded-full font-bold transition-all hover:scale-105 inline-flex items-center gap-2"> Next: Needs Assessment <i data-lucide="arrow-right" class="w-4 h-4"></i> </button>
+     </div>
+    </div>
+   </section><!-- NEEDS ASSESSMENT SECTION -->
+   <section id="page-needs" class="page-section">
+    <div class="max-w-6xl mx-auto px-6 py-20">
+     <div class="text-center mb-16 anim-fade-up">
+      <div class="text-5xl mb-4">
+       🔍
+      </div>
+      <h2 class="spaceGrotesk text-4xl md:text-5xl font-black grad-text mb-2">Needs Assessment</h2>
+      <div class="h-1 w-20 grad-primary mx-auto rounded-full"></div>
+     </div>
+     <div class="grid md:grid-cols-2 gap-6 mb-8 anim-fade-up delay-2">
+      <div class="bg-surfaceCard rounded-2xl p-8 card-hover border border-vibGrad1/20 backdrop-blur">
+       <h3 class="spaceGrotesk text-xl font-black text-vibGrad1 mb-4 flex items-center gap-2"><i data-lucide="clipboard" class="w-6 h-6"></i> Methods</h3>
+       <div class="space-y-3">
+        <div class="bg-vibBg rounded-xl p-4 border border-vibGrad1/20">
+         <div class="font-bold text-vibGrad1 text-sm mb-1">
+          📝 Interviews
+         </div>
+         <p class="text-xs text-textDim">In-depth conversations with caregivers, nurses, and managers</p>
+        </div>
+        <div class="bg-vibBg rounded-xl p-4 border border-vibGrad1/20">
+         <div class="font-bold text-vibGrad1 text-sm mb-1">
+          👁️ Observation
+         </div>
+         <p class="text-xs text-textDim">Direct observation of environment, routines, and conditions</p>
+        </div>
+       </div>
+      </div>
+      <div class="bg-surfaceCard rounded-2xl p-8 card-hover border border-vibGrad2/20 backdrop-blur">
+       <h3 class="spaceGrotesk text-xl font-black text-vibGrad2 mb-4 flex items-center gap-2"><i data-lucide="focus" class="w-6 h-6"></i> Focus Areas</h3>
+       <div class="flex flex-wrap gap-2 mb-5">
+        <span class="bg-vibGrad1/20 text-vibGrad1 text-xs px-3 py-1.5 rounded-full font-bold border border-vibGrad1/30">Environment</span> <span class="bg-vibGrad2/20 text-vibGrad2 text-xs px-3 py-1.5 rounded-full font-bold border border-vibGrad2/30">Hygiene</span> <span class="bg-vibAccent/20 text-vibAccent text-xs px-3 py-1.5 rounded-full font-bold border border-vibAccent/30">Development</span> <span class="bg-vibTeal/20 text-vibTeal text-xs px-3 py-1.5 rounded-full font-bold border border-vibTeal/30">Caregiver</span>
+       </div>
+       <h3 class="spaceGrotesk text-lg font-black text-vibAccent mb-3 flex items-center gap-2"><i data-lucide="shield" class="w-5 h-5"></i> Ethics</h3>
+       <ul class="space-y-2 text-sm text-textDim">
+        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-vibTeal"></i> Informed consent from all participants</li>
+        <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-vibTeal"></i> Confidentiality maintained</li>
+       </ul>
+      </div>
+     </div><!-- Key Needs -->
+     <div class="bg-surfaceCard rounded-2xl p-8 md:p-10 mb-8 anim-fade-up delay-3 border border-vibPurple/20 backdrop-blur">
+      <h3 class="spaceGrotesk text-2xl font-black text-vibAccent mb-6 text-center">Key Needs &amp; Their Impact</h3>
+      <div class="space-y-4">
+       <div class="bg-vibBg rounded-xl p-5 border border-vibGrad1/20">
+        <div class="flex items-center justify-between mb-3">
+         <span class="font-bold text-vibGrad1 text-sm">Poor Physical Environment</span> <span class="text-xs bg-vibGrad1/20 text-vibGrad1 px-2.5 py-1 rounded-full font-bold">High Priority</span>
+        </div>
+        <div class="progress-bar">
+         <div class="progress-fill" style="width:90%"></div>
+        </div>
+        <p class="text-xs text-textDim mt-2">Peeling paint, roof leaks affect children's health directly.</p>
+       </div>
+       <div class="bg-vibBg rounded-xl p-5 border border-vibGrad2/20">
+        <div class="flex items-center justify-between mb-3">
+         <span class="font-bold text-vibGrad2 text-sm">Mould &amp; Health Risks</span> <span class="text-xs bg-vibGrad2/20 text-vibGrad2 px-2.5 py-1 rounded-full font-bold">High Priority</span>
+        </div>
+        <div class="progress-bar">
+         <div class="progress-fill" style="width:85%"></div>
+        </div>
+        <p class="text-xs text-textDim mt-2">Respiratory and immune risks for vulnerable infants.</p>
+       </div>
+       <div class="bg-vibBg rounded-xl p-5 border border-vibAccent/20">
+        <div class="flex items-center justify-between mb-3">
+         <span class="font-bold text-vibAccent text-sm">Lack of Developmental Stimulation</span> <span class="text-xs bg-vibAccent/20 text-vibAccent px-2.5 py-1 rounded-full font-bold">Medium-High</span>
+        </div>
+        <div class="progress-bar">
+         <div class="progress-fill" style="width:75%"></div>
+        </div>
+        <p class="text-xs text-textDim mt-2">No formal programmes limit cognitive and social growth.</p>
+       </div>
+      </div>
+     </div>
+     <div class="text-center mt-12">
+      <button onclick="navigateTo('strengths')" class="grad-secondary text-white px-8 py-4 rounded-full font-bold transition-all hover:scale-105 inline-flex items-center gap-2"> Next: Strengths <i data-lucide="arrow-right" class="w-4 h-4"></i> </button>
+     </div>
+    </div>
+   </section><!-- STRENGTHS SECTION -->
+   <section id="page-strengths" class="page-section">
+    <div class="max-w-6xl mx-auto px-6 py-20">
+     <div class="text-center mb-16 anim-fade-up">
+      <div class="text-5xl mb-4">
+       💪
+      </div>
+      <h2 class="spaceGrotesk text-4xl md:text-5xl font-black grad-text mb-2">Strengths</h2>
+      <div class="h-1 w-20 grad-accent mx-auto rounded-full"></div>
+     </div>
+     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 anim-fade-up delay-2">
+      <div class="bg-surfaceCard rounded-2xl p-6 text-center card-hover border border-vibGrad1/20 backdrop-blur">
+       <div class="w-16 h-16 grad-primary rounded-xl flex items-center justify-center mx-auto mb-4 text-2xl">
+        ❤️
+       </div>
+       <h3 class="spaceGrotesk font-black text-vibGrad1 mb-2">Dedicated Staff</h3>
+       <p class="text-sm text-textDim">Caregivers deeply committed despite limited resources.</p>
+      </div>
+      <div class="bg-surfaceCard rounded-2xl p-6 text-center card-hover border border-vibGrad2/20 backdrop-blur">
+       <div class="w-16 h-16 grad-secondary rounded-xl flex items-center justify-center mx-auto mb-4 text-2xl">
+        🏠
+       </div>
+       <h3 class="spaceGrotesk font-black text-vibGrad2 mb-2">Strong Care Environment</h3>
+       <p class="text-sm text-textDim">Warm, familial atmosphere where children thrive.</p>
+      </div>
+      <div class="bg-surfaceCard rounded-2xl p-6 text-center card-hover border border-vibAccent/20 backdrop-blur">
+       <div class="w-16 h-16 grad-accent rounded-xl flex items-center justify-center mx-auto mb-4 text-2xl">
+        🤝
+       </div>
+       <h3 class="spaceGrotesk font-black text-vibAccent mb-2">Willingness to Collaborate</h3>
+       <p class="text-sm text-textDim">Staff eager to work with external support.</p>
+      </div>
+      <div class="bg-surfaceCard rounded-2xl p-6 text-center card-hover border border-vibTeal/20 backdrop-blur">
+       <div class="w-16 h-16 bg-vibTeal/20 rounded-xl flex items-center justify-center mx-auto mb-4 text-2xl">
+        🏗️
+       </div>
+       <h3 class="spaceGrotesk font-black text-vibTeal mb-2">Existing Infrastructure</h3>
+       <p class="text-sm text-textDim">Solid building foundation ready for improvement.</p>
+      </div>
+      <div class="bg-surfaceCard rounded-2xl p-6 text-center card-hover border border-vibGrad1/20 backdrop-blur">
+       <div class="w-16 h-16 grad-primary rounded-xl flex items-center justify-center mx-auto mb-4 text-2xl">
+        🚗
+       </div>
+       <h3 class="spaceGrotesk font-black text-vibGrad1 mb-2">Transport Access</h3>
+       <p class="text-sm text-textDim">Two vehicles for medical emergencies and transport.</p>
+      </div>
+     </div>
+     <div class="text-center mt-12">
+      <button onclick="navigateTo('action')" class="grad-primary text-white px-8 py-4 rounded-full font-bold transition-all hover:scale-105 inline-flex items-center gap-2"> Next: Action Plan <i data-lucide="arrow-right" class="w-4 h-4"></i> </button>
+     </div>
+    </div>
+   </section><!-- ACTION PLAN SECTION -->
+   <section id="page-action" class="page-section">
+    <div class="max-w-6xl mx-auto px-6 py-20">
+     <div class="text-center mb-16 anim-fade-up">
+      <div class="text-5xl mb-4">
+       🎯
+      </div>
+      <h2 class="spaceGrotesk text-4xl md:text-5xl font-black grad-text mb-2">Action Plan</h2>
+      <div class="h-1 w-20 grad-secondary mx-auto rounded-full"></div>
+     </div><!-- Goals -->
+     <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12 anim-fade-up delay-2">
+      <div class="grad-primary rounded-2xl p-6 text-center card-hover text-white">
+       <div class="text-3xl mb-3">
+        🏠
+       </div>
+       <div class="spaceGrotesk font-black">
+        Improve Environment
+       </div>
+      </div>
+      <div class="grad-secondary rounded-2xl p-6 text-center card-hover text-white">
+       <div class="text-3xl mb-3">
+        📚
+       </div>
+       <div class="spaceGrotesk font-black">
+        Support Development
+       </div>
+      </div>
+      <div class="grad-accent rounded-2xl p-6 text-center card-hover text-white">
+       <div class="text-3xl mb-3">
+        🧴
+       </div>
+       <div class="spaceGrotesk font-black">
+        Improve Hygiene
+       </div>
+      </div>
+      <div class="grad-primary rounded-2xl p-6 text-center card-hover text-white">
+       <div class="text-3xl mb-3">
+        💚
+       </div>
+       <div class="spaceGrotesk font-black">
+        Support Caregivers
+       </div>
+      </div>
+     </div><!-- Activities -->
+     <div class="bg-surfaceCard rounded-2xl p-8 md:p-10 mb-8 anim-fade-up delay-3 border border-vibPurple/20 backdrop-blur">
+      <h3 class="spaceGrotesk text-2xl font-black text-vibAccent mb-6">Planned Activities</h3>
+      <div class="grid md:grid-cols-2 gap-4">
+       <div class="flex items-start gap-3 bg-vibBg rounded-xl p-4 border border-vibGrad1/20">
+        <div class="w-10 h-10 grad-primary rounded-lg flex items-center justify-center flex-shrink-0 text-lg">
+         🎨
+        </div>
+        <div>
+         <div class="font-bold text-vibGrad1 text-sm">
+          Paint Rooms
+         </div>
+         <p class="text-xs text-textDim">Freshen walls with safe, child-friendly paint</p>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 bg-vibBg rounded-xl p-4 border border-vibGrad2/20">
+        <div class="w-10 h-10 grad-secondary rounded-lg flex items-center justify-center flex-shrink-0 text-lg">
+         🔧
+        </div>
+        <div>
+         <div class="font-bold text-vibGrad2 text-sm">
+          Fix Roof
+         </div>
+         <p class="text-xs text-textDim">Repair leaks to eliminate mould source</p>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 bg-vibBg rounded-xl p-4 border border-vibAccent/20">
+        <div class="w-10 h-10 grad-accent rounded-lg flex items-center justify-center flex-shrink-0 text-lg">
+         📚
+        </div>
+        <div>
+         <div class="font-bold text-vibAccent text-sm">
+          Educational Space
+         </div>
+         <p class="text-xs text-textDim">Create stimulating visual learning areas</p>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 bg-vibBg rounded-xl p-4 border border-vibTeal/20">
+        <div class="w-10 h-10 bg-vibTeal/20 rounded-lg flex items-center justify-center flex-shrink-0 text-lg">
+         🌱
+        </div>
+        <div>
+         <div class="font-bold text-vibTeal text-sm">
+          Clean Garden
+         </div>
+         <p class="text-xs text-textDim">Restore outdoor play areas for children</p>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 bg-vibBg rounded-xl p-4 border border-vibGrad1/20">
+        <div class="w-10 h-10 grad-primary rounded-lg flex items-center justify-center flex-shrink-0 text-lg">
+         📖
+        </div>
+        <div>
+         <div class="font-bold text-vibGrad1 text-sm">
+          Reading Corner
+         </div>
+         <p class="text-xs text-textDim">Set up cosy space with age-appropriate books</p>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 bg-vibBg rounded-xl p-4 border border-vibGrad2/20">
+        <div class="w-10 h-10 grad-secondary rounded-lg flex items-center justify-center flex-shrink-0 text-lg">
+         ☕
+        </div>
+        <div>
+         <div class="font-bold text-vibGrad2 text-sm">
+          Break Space
+         </div>
+         <p class="text-xs text-textDim">Dedicated rest area for staff wellbeing</p>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 bg-vibBg rounded-xl p-4 border border-vibAccent/20">
+        <div class="w-10 h-10 grad-accent rounded-lg flex items-center justify-center flex-shrink-0 text-lg">
+         🪟
+        </div>
+        <div>
+         <div class="font-bold text-vibAccent text-sm">
+          Install Curtains
+         </div>
+         <p class="text-xs text-textDim">Privacy and better sleep for children</p>
+        </div>
+       </div>
+       <div class="flex items-start gap-3 bg-vibBg rounded-xl p-4 border border-vibTeal/20">
+        <div class="w-10 h-10 bg-vibTeal/20 rounded-lg flex items-center justify-center flex-shrink-0 text-lg">
+         🧹
+        </div>
+        <div>
+         <div class="font-bold text-vibTeal text-sm">
+          Deep Clean
+         </div>
+         <p class="text-xs text-textDim">Thorough hygiene and facility cleaning</p>
+        </div>
+       </div>
+      </div>
+     </div><!-- Resources -->
+     <div class="bg-surfaceCard rounded-2xl p-8 md:p-10 anim-fade-up delay-4 border border-vibPurple/20 backdrop-blur">
+      <h3 class="spaceGrotesk text-2xl font-black text-vibTeal mb-5 flex items-center gap-3"><i data-lucide="package" class="w-6 h-6"></i> Resources Needed</h3>
+      <div class="flex flex-wrap gap-3">
+       <span class="grad-primary text-white px-4 py-2 rounded-full text-sm font-bold">🎨 Paint</span> <span class="grad-secondary text-white px-4 py-2 rounded-full text-sm font-bold">🌿 Gardening</span> <span class="grad-accent text-white px-4 py-2 rounded-full text-sm font-bold">📚 Books</span> <span class="grad-primary text-white px-4 py-2 rounded-full text-sm font-bold">🪟 Curtains</span> <span class="grad-secondary text-white px-4 py-2 rounded-full text-sm font-bold">🧹 Supplies</span> <span class="grad-accent text-white px-4 py-2 rounded-full text-sm font-bold">🧴 Hygiene</span> <span class="grad-primary text-white px-4 py-2 rounded-full text-sm font-bold">💝 Donations</span>
+      </div>
+     </div>
+     <div class="text-center mt-12">
+      <button onclick="navigateTo('conclusion')" class="grad-accent text-white px-8 py-4 rounded-full font-bold transition-all hover:scale-105 inline-flex items-center gap-2"> Next: Get Involved <i data-lucide="arrow-right" class="w-4 h-4"></i> </button>
+     </div>
+    </div>
+   </section><!-- CONCLUSION SECTION -->
+   <section id="page-conclusion" class="page-section">
+    <div class="max-w-5xl mx-auto px-6 py-28">
+     <div class="text-center mb-12 anim-fade-up">
+      <div class="text-6xl mb-6">
+       ✨
+      </div>
+      <h2 class="spaceGrotesk text-5xl md:text-6xl font-black grad-text mb-4">Make a Difference</h2>
+      <div class="h-1 w-20 grad-primary mx-auto rounded-full"></div>
+     </div>
+     <div class="bg-surfaceCard rounded-2xl p-10 md:p-12 text-center anim-fade-up delay-2 card-hover border border-vibPurple/20 backdrop-blur">
+      <blockquote class="text-3xl md:text-4xl font-black anim-fade-up delay-3 mb-8 italic">
+       <span class="grad-text">"Small acts of kindness, when multiplied, can transform a child's world."</span>
+      </blockquote>
+      <p class="text-lg text-textDim leading-relaxed max-w-2xl mx-auto mb-8">The Princess Alice Adoption Home has been a haven for nearly a century. With targeted improvements—fresh paint, repaired roofs, clean spaces, books, and caregiver support—we can profoundly impact <span class="text-vibAccent font-bold">28 vulnerable children</span>.</p>
+      <h3 class="spaceGrotesk text-2xl font-black text-vibGrad1 mb-8">How You Can Help</h3>
+      <div class="grid sm:grid-cols-3 gap-5 max-w-xl mx-auto mb-10">
+       <div class="bg-vibBg rounded-xl p-6 text-center card-hover border border-vibGrad1/20">
+        <div class="text-4xl mb-3">
+         💝
+        </div>
+        <div class="spaceGrotesk font-black text-vibGrad1">
+         Donate
+        </div>
+        <p class="text-xs text-textDim mt-2">Supplies, funds, or time</p>
+       </div>
+       <div class="bg-vibBg rounded-xl p-6 text-center card-hover border border-vibGrad2/20">
+        <div class="text-4xl mb-3">
+         📢
+        </div>
+        <div class="spaceGrotesk font-black text-vibGrad2">
+         Share
+        </div>
+        <p class="text-xs text-textDim mt-2">Spread this story</p>
+       </div>
+       <div class="bg-vibBg rounded-xl p-6 text-center card-hover border border-vibAccent/20">
+        <div class="text-4xl mb-3">
+         🤲
+        </div>
+        <div class="spaceGrotesk font-black text-vibAccent">
+         Volunteer
+        </div>
+        <p class="text-xs text-textDim mt-2">Share your skills</p>
+       </div>
+      </div>
+      <p id="cta-text" class="spaceGrotesk text-3xl md:text-4xl font-black grad-text mb-4">Together, we can build a brighter future. 🌟</p>
+      <p class="text-textDim text-sm">Community Profile &amp; Needs Analysis — University Project</p>
+     </div>
+    </div>
+   </section><!-- FOOTER -->
+   <footer class="bg-vibBg border-t border-vibPurple/20 py-10 text-center backdrop-blur">
+    <div class="max-w-4xl mx-auto px-6">
+     <div class="flex items-center justify-center gap-3 mb-3">
+      <span class="text-2xl">✨</span> <span class="spaceGrotesk font-black text-vibAccent">Princess Alice Adoption Home</span> <span class="text-2xl">✨</span>
+     </div>
+     <p class="text-textDim text-sm mb-1">Community Profile &amp; Needs Analysis</p>
+     <p class="text-textDim text-xs">Academic Service Learning Project</p>
+     <div class="h-1 w-16 grad-primary mx-auto rounded-full my-4"></div>
+     <p class="text-textDim text-xs italic">"Little hands, big hearts"</p>
+    </div>
+   </footer>
+  </div><!-- EDIT PANEL --> <input type="checkbox" id="edit-toggle" class="edit-toggle">
+  <div class="edit-panel">
+   <div class="edit-panel-header">
+    <span>✏️ Edit Content</span> <label for="edit-toggle" class="edit-panel-close">✕</label>
+   </div>
+   <div class="edit-panel-content">
+    <div class="edit-panel-group">
+     <label class="edit-panel-label">Site Title</label> <input id="edit-site-title" type="text" class="edit-panel-input" placeholder="Site Title">
+    </div>
+    <div class="edit-panel-group">
+     <label class="edit-panel-label">Hero Quote</label> <textarea id="edit-hero-quote" class="edit-panel-input" style="min-height:80px;resize:vertical;" placeholder="Hero Quote"></textarea>
+    </div>
+    <div class="edit-panel-group">
+     <label class="edit-panel-label">Call to Action</label> <input id="edit-cta-text" type="text" class="edit-panel-input" placeholder="Call to Action">
+    </div>
+   </div>
+  </div><label for="edit-toggle" class="edit-btn"> <i data-lucide="edit-2"></i> </label>
+  <script>
+  // Page navigation
+  const pages = ['home','about','environment','resources','needs','strengths','action','conclusion'];
+  const pageLabels = {
+    home: 'Home', about: 'About', environment: 'Environment', resources: 'Resources',
+    needs: 'Needs', strengths: 'Strengths', action: 'Action Plan', conclusion: 'Get Involved'
+  };
+
+  let currentPage = 'home';
+
+  function buildNav() {
+    const desktop = document.getElementById('desktop-nav-links');
+    const mobile = document.getElementById('mobile-menu');
+    desktop.innerHTML = '';
+    mobile.innerHTML = '';
+    pages.forEach(p => {
+      const isActive = p === currentPage;
+      // Desktop
+      const btn = document.createElement('button');
+      btn.className = `nav-link text-sm px-3 py-2 rounded-lg text-textDim hover:text-textLight hover:bg-vibGrad1/20 ${isActive ? 'active-link' : ''}`;
+      btn.textContent = pageLabels[p];
+      btn.onclick = () => navigateTo(p);
+      desktop.appendChild(btn);
+      // Mobile
+      const mbtn = document.createElement('button');
+      mbtn.className = `text-left py-2.5 px-4 rounded-lg text-textDim hover:bg-vibGrad1/20 text-sm ${isActive ? 'font-bold text-vibGrad1' : ''}`;
+      mbtn.textContent = pageLabels[p];
+      mbtn.onclick = () => { navigateTo(p); toggleMobile(); };
+      mobile.appendChild(mbtn);
+    });
+  }
+
+  function navigateTo(page) {
+    document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('page-' + page);
+    if (target) {
+      target.classList.add('active');
+      currentPage = page;
+      buildNav();
+      document.getElementById('app-wrapper').scrollTo({ top: 0, behavior: 'smooth' });
+      target.querySelectorAll('.anim-fade-up, .anim-fade, .anim-glow').forEach(el => {
+        el.style.animation = 'none';
+        el.offsetHeight;
+        el.style.animation = '';
+      });
+      lucide.createIcons();
+    }
+  }
+
+  function toggleMobile() {
+    document.getElementById('mobile-menu').classList.toggle('open');
+  }
+
+  // Element SDK
+  const defaultConfig = {
+    site_title: 'Princess Alice Adoption Home',
+    hero_quote: '"Every child deserves a safe, nurturing environment to grow and thrive."',
+    cta_text: 'Together, we can build a brighter future. 🌟',
+    background_color: '#FBF7F3',
+    surface_color: '#FFFFFF',
+    text_color: '#3D3D3D',
+    primary_action_color: '#FFB3D9',
+    secondary_action_color: '#D9B3FF',
+    font_family: 'Poppins',
+    font_size: 16
+  };
+
+  async function initApp() {
+    buildNav();
+    lucide.createIcons();
+
+    const siteTitle = document.getElementById('edit-site-title');
+    const heroQuote = document.getElementById('edit-hero-quote');
+    const ctaText = document.getElementById('edit-cta-text');
+
+    siteTitle.addEventListener('input', (e) => {
+      if (window.elementSdk) {
+        window.elementSdk.setConfig({ site_title: e.target.value });
+      }
+    });
+
+    heroQuote.addEventListener('input', (e) => {
+      if (window.elementSdk) {
+        window.elementSdk.setConfig({ hero_quote: e.target.value });
+      }
+    });
+
+    ctaText.addEventListener('input', (e) => {
+      if (window.elementSdk) {
+        window.elementSdk.setConfig({ cta_text: e.target.value });
+      }
+    });
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (config) => {
+          const c = config;
+          siteTitle.value = c.site_title || defaultConfig.site_title;
+          heroQuote.value = c.hero_quote || defaultConfig.hero_quote;
+          ctaText.value = c.cta_text || defaultConfig.cta_text;
+
+          const navTitle = document.getElementById('nav-title');
+          if (navTitle) navTitle.textContent = c.site_title ? c.site_title.split(' ')[0] + ' ' + c.site_title.split(' ')[1] : 'Princess Alice';
+
+          const heroTitle = document.getElementById('hero-title');
+          if (heroTitle) {
+            const title = c.site_title || defaultConfig.site_title;
+            heroTitle.innerHTML = title.replace(' ', '<br>');
+          }
+
+          const heroQuoteEl = document.getElementById('hero-quote');
+          if (heroQuoteEl) heroQuoteEl.querySelector('span').textContent = c.hero_quote || defaultConfig.hero_quote;
+
+          const ctaTextEl = document.getElementById('cta-text');
+          if (ctaTextEl) ctaTextEl.textContent = c.cta_text || defaultConfig.cta_text;
+
+          const bg = c.background_color || defaultConfig.background_color;
+          const surface = c.surface_color || defaultConfig.surface_color;
+          const text = c.text_color || defaultConfig.text_color;
+          const primary = c.primary_action_color || defaultConfig.primary_action_color;
+          const secondary = c.secondary_action_color || defaultConfig.secondary_action_color;
+
+          document.getElementById('app-wrapper').style.backgroundColor = bg;
+          document.querySelectorAll('.bg-surfaceCard').forEach(el => el.style.backgroundColor = surface);
+          document.querySelectorAll('body').forEach(el => {
+            el.style.color = text;
+          });
+
+          const font = c.font_family || defaultConfig.font_family;
+          const baseFontStack = 'Poppins, sans-serif';
+          document.body.style.fontFamily = `${font}, ${baseFontStack}`;
+
+          const baseSize = c.font_size || defaultConfig.font_size;
+          document.body.style.fontSize = `${baseSize}px`;
+        },
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            { get: () => config.background_color || defaultConfig.background_color, set: (v) => { config.background_color = v; window.elementSdk.setConfig({ background_color: v }); } },
+            { get: () => config.surface_color || defaultConfig.surface_color, set: (v) => { config.surface_color = v; window.elementSdk.setConfig({ surface_color: v }); } },
+            { get: () => config.text_color || defaultConfig.text_color, set: (v) => { config.text_color = v; window.elementSdk.setConfig({ text_color: v }); } },
+            { get: () => config.primary_action_color || defaultConfig.primary_action_color, set: (v) => { config.primary_action_color = v; window.elementSdk.setConfig({ primary_action_color: v }); } },
+            { get: () => config.secondary_action_color || defaultConfig.secondary_action_color, set: (v) => { config.secondary_action_color = v; window.elementSdk.setConfig({ secondary_action_color: v }); } },
+          ],
+          borderables: [],
+          fontEditable: {
+            get: () => config.font_family || defaultConfig.font_family,
+            set: (v) => { config.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
+          },
+          fontSizeable: {
+            get: () => config.font_size || defaultConfig.font_size,
+            set: (v) => { config.font_size = v; window.elementSdk.setConfig({ font_size: v }); }
+          }
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ['site_title', config.site_title || defaultConfig.site_title],
+          ['hero_quote', config.hero_quote || defaultConfig.hero_quote],
+          ['cta_text', config.cta_text || defaultConfig.cta_text]
+        ])
+      });
+    }
+  }
+
+  initApp();
+</script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9dec9514e4074ec1',t:'MTc3MzkyNDQxMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
