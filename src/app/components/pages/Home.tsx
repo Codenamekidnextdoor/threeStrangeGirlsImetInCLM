@@ -69,7 +69,7 @@ export function Home({ onNavigate }: HomeProps) {
 
           <div className="stat-card rounded-3xl p-6 text-center card-hover anim-fade-up delay-6 backdrop-blur">
             <div className="text-4xl mb-3">📍</div>
-            <div className="baloo text-3xl font-black text-[#8B5BA7]">JHB</div>
+            <div className="baloo text-3xl font-black text-[#8B5BA7]">Westcliff</div>
             <div className="text-sm text-[#4A4A4A] mt-2">Johannesburg, SA</div>
           </div>
         </div>
